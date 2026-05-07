@@ -49,7 +49,7 @@ def optimize_aad_channels_nonlinear(
             retained_ratio=1.0,
         )
 
-    sorted_indices = sorted(range(len(weighted)), key=weighted.__getitem__, reverse=True)
+    sorted_indices = sorted(range(len(weighted)), key=lambda index: weighted[index], reverse=True)
     selected: list[int] = []
     running = 0.0
     for index in sorted_indices:
