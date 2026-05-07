@@ -30,6 +30,15 @@ class OptimizeAADChannelsNonlinearTests(unittest.TestCase):
         self.assertEqual(result.selected_indices, [0, 1])
         self.assertEqual(result.retained_ratio, 1.0)
 
+    def test_zero_scores_with_retention_target_returns_min_channels(self) -> None:
+        result = optimize_aad_channels_nonlinear(
+            [0.0, 0.0, 0.0],
+            retention_target=0.8,
+            min_channels=2,
+        )
+        self.assertEqual(result.selected_indices, [0, 1])
+        self.assertEqual(result.retained_ratio, 1.0)
+
     def test_rejects_negative_scores(self) -> None:
         with self.assertRaises(ValueError):
             optimize_aad_channels_nonlinear([0.3, -0.1, 0.9])

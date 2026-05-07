@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-import math
 from typing import Iterable, Sequence
 
 
@@ -42,7 +41,7 @@ def optimize_aad_channels_nonlinear(
     if any(score < 0 for score in values):
         raise ValueError("scores must be non-negative")
 
-    weighted = [math.pow(score, gamma) for score in values]
+    weighted = [score**gamma for score in values]
     total = sum(weighted)
     if total == 0:
         return ChannelReductionResult(
