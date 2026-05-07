@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import math
 from typing import Iterable, Sequence
 
 
@@ -41,7 +42,7 @@ def optimize_aad_channels_nonlinear(
     if any(score < 0 for score in values):
         raise ValueError("scores must be non-negative")
 
-    weighted = [score**gamma for score in values]
+    weighted = [math.pow(score, gamma) for score in values]
     total = sum(weighted)
     if total == 0:
         return ChannelReductionResult(
@@ -49,12 +50,12 @@ def optimize_aad_channels_nonlinear(
             retained_ratio=1.0,
         )
 
-    sorted_indices = sorted(range(len(weighted)), key=lambda index: weighted[index], reverse=True)
+    sorted_weighted = sorted(enumerate(weighted), key=lambda item: item[1], reverse=True)
     selected: list[int] = []
     running = 0.0
-    for index in sorted_indices:
+    for index, weight in sorted_weighted:
         selected.append(index)
-        running += weighted[index]
+        running += weight
         if len(selected) >= min_channels and running / total >= retention_target:
             break
 

@@ -22,7 +22,7 @@ class OptimizeAADChannelsNonlinearTests(unittest.TestCase):
         )
         self.assertEqual(len(result.selected_indices), 2)
 
-    def test_zero_scores_falls_back_to_min_channels(self) -> None:
+    def test_zero_scores_returns_min_channels(self) -> None:
         result = optimize_aad_channels_nonlinear(
             [0.0, 0.0, 0.0],
             min_channels=2,
